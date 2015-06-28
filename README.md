@@ -9,3 +9,5 @@ Since it is a daemon app, you won't even be aware of it's existence. However, if
 `sudo killall Spotify\ Notifier`
 
 from Terminal (Applications -> Utilities -> Terminal).
+
+The .app executable can be found in release -> 1.0
