@@ -85,8 +85,14 @@
     [notif setDeliveryDate:[NSDate date]];
 
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-    
+    [center setDelegate:self];
     [center scheduleNotification:notif];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
+        didActivateNotification:(NSUserNotification *)notification
+{
+    [[NSWorkspace sharedWorkspace] launchApplication:@"Spotify"];
 }
 
 @end

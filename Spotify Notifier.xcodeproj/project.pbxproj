@@ -281,6 +281,7 @@
 				CEA54BF81B40A1FC00D8657E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
