@@ -43,9 +43,11 @@
     [self startTimer];
   }
 
-  statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-  [statusBarItem setTitle:@"No song playing"];
-
+  statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+  [statusItem setTitle:@"No song playing"];
+  NSMenu *menu = [[NSMenu alloc] init];
+  [menu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""]];
+  [statusItem setMenu:menu];
 }
 
 - (void)startTimer
@@ -87,7 +89,7 @@
   NSLog(@"Track: %@", [spotifyTrack debugDescription]);
   if (![[notification.userInfo valueForKey:@"Player State"] isEqualToString:@"Playing"])
   {
-    [statusBarItem setTitle:@"No song playing"];
+    [statusItem setTitle:@"No song playing"];
     return;
   }
 
@@ -102,7 +104,7 @@
   [center setDelegate:self];
   [center scheduleNotification:notif];
 
-  [statusBarItem setTitle:[NSString stringWithFormat:@"%@ - %@",
+  [statusItem setTitle:[NSString stringWithFormat:@"%@ - %@",
                            [spotifyTrack name], [spotifyTrack artist]]];
 }
 

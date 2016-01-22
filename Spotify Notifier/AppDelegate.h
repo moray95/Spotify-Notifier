@@ -9,7 +9,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 {
-  NSStatusItem *statusBarItem;
+  NSStatusItem *statusItem;
 }
 
 @end
