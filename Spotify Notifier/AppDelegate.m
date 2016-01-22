@@ -42,6 +42,10 @@
   {
     [self startTimer];
   }
+
+  statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+  [statusBarItem setTitle:@"No song playing"];
+
 }
 
 - (void)startTimer
@@ -83,6 +87,7 @@
   NSLog(@"Track: %@", [spotifyTrack debugDescription]);
   if (![[notification.userInfo valueForKey:@"Player State"] isEqualToString:@"Playing"])
   {
+    [statusBarItem setTitle:@"No song playing"];
     return;
   }
 
@@ -96,6 +101,9 @@
   NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
   [center setDelegate:self];
   [center scheduleNotification:notif];
+
+  [statusBarItem setTitle:[NSString stringWithFormat:@"%@ - %@",
+                           [spotifyTrack name], [spotifyTrack artist]]];
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center
