@@ -91,8 +91,7 @@
   SpotifyClientApplication *spotify =
       [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
   SpotifyClientTrack *spotifyTrack = [spotify currentTrack];
-  NSLog(@"notification payload: %@", notification.userInfo);
-  NSLog(@"Track: %@", [spotifyTrack debugDescription]);
+
   if (![[notification.userInfo valueForKey:@"Player State"]
           isEqualToString:@"Playing"]) {
     [statusItem setTitle:@"No song playing"];
@@ -107,6 +106,7 @@
                                                        [spotifyTrack album]]];
   [notif setDeliveryDate:[NSDate date]];
   [notif setContentImage:[spotifyTrack artwork]];
+
   NSUserNotificationCenter *center =
       [NSUserNotificationCenter defaultUserNotificationCenter];
   [center setDelegate:self];
@@ -114,8 +114,8 @@
 
   [statusItem
       setTitle:[NSString stringWithFormat:@"%@ - %@",
-                                          [[spotifyTrack name] trim:10],
-                                          [[spotifyTrack artist] trim:10]]];
+                                          [[spotifyTrack name] trim:20],
+                                          [[spotifyTrack artist] trim:20]]];
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center
