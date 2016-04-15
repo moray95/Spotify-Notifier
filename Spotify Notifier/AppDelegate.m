@@ -6,89 +6,95 @@
 //
 
 #import "AppDelegate.h"
+#import "NSString+Trim.h"
 #import "SpotifyClient.h"
 
-@interface AppDelegate()
+@interface AppDelegate ()
 - (void)updateTrackInfoFromSpotify:(NSNotification *)notification;
 @end
 
 @implementation AppDelegate
 
-- (void)handleSpotifyTermination
-{
-  SpotifyClientApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+- (void)handleSpotifyTermination {
+  SpotifyClientApplication *spotify =
+      [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
 
-  if (!spotify.isRunning)
-  {
+  if (!spotify.isRunning) {
     [[NSApplication sharedApplication] terminate:nil];
   }
 }
 
-- (void)setup
-{
-  SpotifyClientApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+- (void)setup {
+  SpotifyClientApplication *spotify =
+      [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
 
-  if (spotify.isRunning)
-  {
+  if (spotify.isRunning) {
     NSLog(@"Spotify Launched");
-    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
+    NSDistributedNotificationCenter *dnc =
+        [NSDistributedNotificationCenter defaultCenter];
 
     [dnc addObserver:self
             selector:@selector(updateTrackInfoFromSpotify:)
                 name:@"com.spotify.client.PlaybackStateChanged"
               object:nil];
-  }
-  else
-  {
+  } else {
     [self startTimer];
   }
 
-  statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+  statusItem = [[NSStatusBar systemStatusBar]
+      statusItemWithLength:NSVariableStatusItemLength];
   [statusItem setTitle:@"No song playing"];
   NSMenu *menu = [[NSMenu alloc] init];
-  [menu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""]];
+  [menu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit"
+                                           action:@selector(terminate:)
+                                    keyEquivalent:@""]];
   [statusItem setMenu:menu];
 }
 
-- (void)startTimer
-{
-  NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(setup) userInfo:nil repeats:NO];
+- (void)startTimer {
+  NSTimer *timer = [NSTimer timerWithTimeInterval:1
+                                           target:self
+                                         selector:@selector(setup)
+                                         userInfo:nil
+                                          repeats:NO];
   [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-  if(![[NSWorkspace sharedWorkspace] launchApplication:@"Spotify"])
-  {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  if (![[NSWorkspace sharedWorkspace] launchApplication:@"Spotify"]) {
     NSUserNotification *notif = [[NSUserNotification alloc] init];
 
     [notif setTitle:@"Error launching Spotify"];
-    [notif setInformativeText:@"Spotify couldn't be launched. Try to launch it manually and reopen Spotify Notifier."];
+    [notif setInformativeText:@"Spotify couldn't be launched. Try to launch it "
+                              @"manually and reopen Spotify Notifier."];
     [notif setDeliveryDate:[NSDate date]];
 
-    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+    NSUserNotificationCenter *center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
     [center setDelegate:self];
     [center scheduleNotification:notif];
     return;
   }
   [self setup];
 
-  NSTimer *timer = [NSTimer timerWithTimeInterval:10
-                                           target:self
-                                         selector:@selector(handleSpotifyTermination)
-                                         userInfo:nil repeats:YES];
+  NSTimer *timer =
+      [NSTimer timerWithTimeInterval:10
+                              target:self
+                            selector:@selector(handleSpotifyTermination)
+                            userInfo:nil
+                             repeats:YES];
   [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
-- (void)updateTrackInfoFromSpotify:(NSNotification *)notification
-{
+- (void)updateTrackInfoFromSpotify:(NSNotification *)notification {
 
-  SpotifyClientApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-  SpotifyClientTrack *spotifyTrack  = [spotify currentTrack];
+  SpotifyClientApplication *spotify =
+      [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+  SpotifyClientTrack *spotifyTrack = [spotify currentTrack];
   NSLog(@"notification payload: %@", notification.userInfo);
   NSLog(@"Track: %@", [spotifyTrack debugDescription]);
-  if (![[notification.userInfo valueForKey:@"Player State"] isEqualToString:@"Playing"])
-  {
+  if (![[notification.userInfo valueForKey:@"Player State"]
+          isEqualToString:@"Playing"]) {
     [statusItem setTitle:@"No song playing"];
     return;
   }
@@ -97,20 +103,23 @@
 
   [notif setTitle:[spotifyTrack name]];
   [notif setInformativeText:[NSString stringWithFormat:@"%@ - %@",
-                             [spotifyTrack artist], [spotifyTrack album]]];
+                                                       [spotifyTrack artist],
+                                                       [spotifyTrack album]]];
   [notif setDeliveryDate:[NSDate date]];
   [notif setContentImage:[spotifyTrack artwork]];
-  NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+  NSUserNotificationCenter *center =
+      [NSUserNotificationCenter defaultUserNotificationCenter];
   [center setDelegate:self];
   [center scheduleNotification:notif];
 
-  [statusItem setTitle:[NSString stringWithFormat:@"%@ - %@",
-                           [spotifyTrack name], [spotifyTrack artist]]];
+  [statusItem
+      setTitle:[NSString stringWithFormat:@"%@ - %@",
+                                          [[spotifyTrack name] trim:10],
+                                          [[spotifyTrack artist] trim:10]]];
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center
-       didActivateNotification:(NSUserNotification *)notification
-{
+       didActivateNotification:(NSUserNotification *)notification {
   [[NSWorkspace sharedWorkspace] launchApplication:@"Spotify"];
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE0ECADC1CC1203D00AB041F /* NSString+Trim.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0ECADB1CC1203D00AB041F /* NSString+Trim.m */; };
 		CEA54BEA1B40A1FC00D8657E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA54BE91B40A1FC00D8657E /* AppDelegate.m */; };
 		CEA54BED1B40A1FC00D8657E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA54BEC1B40A1FC00D8657E /* main.m */; };
 		CEA54BF21B40A1FC00D8657E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA54BF01B40A1FC00D8657E /* MainMenu.xib */; };
@@ -14,6 +15,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE0ECADA1CC1203D00AB041F /* NSString+Trim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Trim.h"; sourceTree = "<group>"; };
+		CE0ECADB1CC1203D00AB041F /* NSString+Trim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Trim.m"; sourceTree = "<group>"; };
 		CEA54BE51B40A1FC00D8657E /* Spotify Notifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spotify Notifier.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA54BE81B40A1FC00D8657E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CEA54BE91B40A1FC00D8657E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -55,6 +58,8 @@
 			children = (
 				CEA54BE81B40A1FC00D8657E /* AppDelegate.h */,
 				CEA54BE91B40A1FC00D8657E /* AppDelegate.m */,
+				CE0ECADA1CC1203D00AB041F /* NSString+Trim.h */,
+				CE0ECADB1CC1203D00AB041F /* NSString+Trim.m */,
 				CEA54BF91B40A23900D8657E /* Media.xcassets */,
 				CEA54BF01B40A1FC00D8657E /* MainMenu.xib */,
 				CEA54BF31B40A1FC00D8657E /* Info.plist */,
@@ -141,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA54BED1B40A1FC00D8657E /* main.m in Sources */,
+				CE0ECADC1CC1203D00AB041F /* NSString+Trim.m in Sources */,
 				CEA54BEA1B40A1FC00D8657E /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
