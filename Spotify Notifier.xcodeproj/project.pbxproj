@@ -251,7 +251,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Spotify Notifier/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "moraybaruh.Spotify-Notifier";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.moraybaruh.spotify-notifier";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -263,7 +263,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Spotify Notifier/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "moraybaruh.Spotify-Notifier";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.moraybaruh.spotify-notifier";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
