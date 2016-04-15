@@ -9,6 +9,8 @@
 #import "NSString+Trim.h"
 #import "SpotifyClient.h"
 
+#define SPOTIFY_BUNDLE_ID @"com.spotify.client"
+
 @interface AppDelegate ()
 - (void)updateTrackInfoFromSpotify:(NSNotification *)notification;
 @end
@@ -17,7 +19,7 @@
 
 - (void)handleSpotifyTermination {
   SpotifyClientApplication *spotify =
-      [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+      [SBApplication applicationWithBundleIdentifier:SPOTIFY_BUNDLE_ID];
 
   if (!spotify.isRunning) {
     [[NSApplication sharedApplication] terminate:nil];
@@ -26,7 +28,7 @@
 
 - (void)setup {
   SpotifyClientApplication *spotify =
-      [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+      [SBApplication applicationWithBundleIdentifier:SPOTIFY_BUNDLE_ID];
 
   if (spotify.isRunning) {
     NSLog(@"Spotify Launched");
@@ -48,6 +50,10 @@
   [menu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit"
                                            action:@selector(terminate:)
                                     keyEquivalent:@""]];
+  [menu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit Spotify"
+                                           action:@selector(quitSpotify)
+                                    keyEquivalent:@""]];
+
   [statusItem setMenu:menu];
 }
 
@@ -89,7 +95,7 @@
 - (void)updateTrackInfoFromSpotify:(NSNotification *)notification {
 
   SpotifyClientApplication *spotify =
-      [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+      [SBApplication applicationWithBundleIdentifier:SPOTIFY_BUNDLE_ID];
   SpotifyClientTrack *spotifyTrack = [spotify currentTrack];
 
   if (![[notification.userInfo valueForKey:@"Player State"]
@@ -121,6 +127,14 @@
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center
        didActivateNotification:(NSUserNotification *)notification {
   [[NSWorkspace sharedWorkspace] launchApplication:@"Spotify"];
+}
+
+- (void)quitSpotify {
+  NSArray *apps = [NSRunningApplication
+      runningApplicationsWithBundleIdentifier:SPOTIFY_BUNDLE_ID];
+  for (NSRunningApplication *app in apps) {
+    [app terminate];
+  }
 }
 
 @end
